@@ -1,7 +1,7 @@
 // @ts-ignore
 import React, {Component} from 'react';
 import {Address} from "./utils";
-import {Ctf, GsnStatusInfo} from "@ctf/eth/src/Ctf";
+import {Ctf, GsnStatusInfo} from "@ctf/eth";
 
 declare let global: { network: any }
 
@@ -57,13 +57,13 @@ export class GsnStatus extends Component<GsnStatusProps, GsnStatusState> {
     if (gsnStatus === undefined) {
       gsnStatus = await this.ctf.getGsnStatus()
     }
-    gsnStatus.getPaymasterBalance().then(bal => {
+    gsnStatus.getPaymasterBalance().then((bal: { toString: () => string; }) => {
       const b = parseFloat(bal.toString())
       this.setState({
         paymasterBalance: (b / 1e18).toFixed(6)
       })
     })
-    gsnStatus.getActiveRelayers().then(count => {
+    gsnStatus.getActiveRelayers().then((count: { toString: () => any; }) => {
       this.setState({
         totalRelayers: count.toString()
       })

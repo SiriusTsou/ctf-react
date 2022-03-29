@@ -1,5 +1,6 @@
 require('@nomiclabs/hardhat-waffle')
 require('hardhat-deploy')
+require('hardhat-ethernal')
 const fs = require('fs')
 
 let accounts
@@ -7,7 +8,7 @@ let accounts
 let mnemonicFile = process.env.MNEMONIC_FILE
 if (mnemonicFile) {
   console.log('using MNEMONIC_FILE', mnemonicFile)
-  mnemonic = fs.readFileSync(mnemonicFile, 'utf-8')
+  const mnemonic = fs.readFileSync(mnemonicFile, 'utf-8')
   accounts = { mnemonic }
 }
 
@@ -22,6 +23,13 @@ task('accounts', 'Prints the list of accounts', async () => {
   }
 })
 
+extendEnvironment((hre) => {
+  hre.ethernalSync = true;
+  hre.ethernalWorkspace = "hardhat";
+  hre.ethernalTrace = false;
+  hre.ethernalResetOnStart = "hardhat";
+});
+
 infura = process.env.INFURA_ID
 
 // You have to export an object to set up your config
@@ -29,7 +37,7 @@ infura = process.env.INFURA_ID
 // defaultNetwork, networks, solc, and paths.
 // Go to https://buidler.dev/config/ to learn more
 module.exports = {
-  solidity: "0.7.6",
+  solidity: "0.8.0",
   defaultNetwork: 'development',
   networks: {
     development: {
@@ -99,7 +107,10 @@ module.exports = {
       url: 'https://api.avax.network/ext/bc/C/rpc',
       accounts
     },
-
+    hardhat: {
+      chainId: 1337,
+      accounts
+    }
   },
 
   namedAccounts: {

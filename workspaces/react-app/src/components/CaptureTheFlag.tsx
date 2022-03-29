@@ -41,7 +41,7 @@ export class CaptureTheFlag extends Component {
       events: this.prependEvents(undefined, events),
     })
 
-    ctf.listenToEvents(event => {
+    ctf.listenToEvents((event: { currentHolder: any; }) => {
       this.log(event)
       this.setState({
         current: event.currentHolder

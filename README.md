@@ -16,8 +16,9 @@ yarn evm-with-gsn
 And now in another window:
 
 ```
+yarn compile
 yarn deploy
-yarn start.
+yarn start
 ```
 
 A live deployment of this app is available at https://ctf-react.opengsn.org
